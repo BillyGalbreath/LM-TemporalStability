@@ -1,0 +1,14 @@
+{
+  "type": "code",
+  "name": "LiveMap Temporal Stability",
+  "modid": "lm-temporalstability",
+  "version": "{version}",
+  "description": "{description}",
+  "website": "https://github.com/BillyGalbreath/LM-TemporalStability",
+  "authors": [ "BillyGalbreath" ],
+  "side": "Server",
+  "dependencies": {
+    "game": "1.19.0",
+    "livemap": "*"
+  }
+}
