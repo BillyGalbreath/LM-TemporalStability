@@ -15,10 +15,6 @@ public class StabilityHeatmap : Renderer {
         _temporalStabilitySystem = api.ModLoader.GetModSystem<SystemTemporalStability>();
     }
 
-    public override void CalculateShadows() {
-        // do nothing
-    }
-
     public override void ScanChunkColumn(ChunkPos chunkPos, BlockData blockData) {
         int startX = chunkPos.X << 5;
         int startZ = chunkPos.Z << 5;
@@ -55,7 +51,7 @@ public class StabilityHeatmap : Renderer {
                     if (color > 0 && block.Custom.TryGetValue("temporalstability", out object? obj)) {
                         float stability = (1.5F - (float)(obj ?? 0)) * 1.35F;
                         Color lerped = Color.LerpHsb(0x0000FF, 0xFF0000, Math.Clamp(stability, 0F, 1F));
-                        color = Color.Blend(lerped, color, 0.4F).Alpha(0xFF);
+                        color = Color.Blend(lerped, color, 0.25F).Alpha(0xFF);
                     }
                 }
 
