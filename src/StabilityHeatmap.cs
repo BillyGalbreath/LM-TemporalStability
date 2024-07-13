@@ -55,7 +55,9 @@ public class StabilityHeatmap : Renderer {
                     }
                 }
 
-                TileImage.SetBlockColor(x, z, color, 1F);
+                float yDiff = ProcessShadow(x, y, z, blockData);
+
+                TileImage.SetBlockColor(x, z, color, yDiff);
             }
         }
     }
