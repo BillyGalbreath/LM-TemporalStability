@@ -7,8 +7,9 @@
   "website": "https://github.com/BillyGalbreath/LM-TemporalStability",
   "authors": [ "BillyGalbreath" ],
   "side": "Server",
+  "requiredOnClient": false,
+  "requiredOnServer": true,
   "dependencies": {
-    "game": "1.19.0",
     "livemap": "*"
   }
 }

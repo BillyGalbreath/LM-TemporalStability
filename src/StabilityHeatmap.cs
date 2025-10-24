@@ -1,4 +1,3 @@
-using System;
 using livemap.data;
 using livemap.render;
 using Vintagestory.API.MathTools;
@@ -8,12 +7,8 @@ using Vintagestory.GameContent;
 
 namespace livemap.temporalstability;
 
-public class StabilityHeatmap : Renderer {
-    private readonly SystemTemporalStability _temporalStabilitySystem;
-
-    public StabilityHeatmap(ICoreServerAPI api) : base("temporalstability") {
-        _temporalStabilitySystem = api.ModLoader.GetModSystem<SystemTemporalStability>();
-    }
+public class StabilityHeatmap(ICoreServerAPI api) : Renderer("temporalstability") {
+    private readonly SystemTemporalStability _temporalStabilitySystem = api.ModLoader.GetModSystem<SystemTemporalStability>();
 
     public override void ScanChunkColumn(ChunkPos chunkPos, BlockData blockData) {
         int startX = chunkPos.X << 5;

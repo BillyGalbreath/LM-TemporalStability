@@ -1,39 +1,33 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net7.0</TargetFramework>
+        <TargetFramework>net8.0</TargetFramework>
         <Version>0.0.1</Version>
         <Description>A LiveMap addon that shows temporal stability heatmap</Description>
+        <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+        <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
+        <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+        <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
         <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-        <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
-        <DebugType>embedded</DebugType>
+        <DebugType>full</DebugType>
         <DebugSymbols>true</DebugSymbols>
-        <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
         <ExcludeGeneratedDebugSymbol>false</ExcludeGeneratedDebugSymbol>
-        <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
-        <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
+        <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
     </PropertyGroup>
 
     <ItemGroup>
-        <Reference Include="Vintagestory" HintPath="$(VINTAGE_STORY)/Vintagestory.dll" Private="false" />
-        <Reference Include="VintagestoryAPI" HintPath="$(VINTAGE_STORY)/VintagestoryAPI.dll" Private="false" />
-        <Reference Include="VintagestoryLib" HintPath="$(VINTAGE_STORY)/VintagestoryLib.dll" Private="false" />
-        <Reference Include="VintagestoryServer" HintPath="$(VINTAGE_STORY)/VintagestoryServer.dll" Private="false" />
-        <Reference Include="VSCreative" HintPath="$(VINTAGE_STORY)/Mods/VSCreativeMod.dll" Private="false" />
-        <Reference Include="VSEssentials" HintPath="$(VINTAGE_STORY)/Mods/VSEssentials.dll" Private="false" />
-        <Reference Include="VSSurvivalMod" HintPath="$(VINTAGE_STORY)/Mods/VSSurvivalMod.dll" Private="false" />
-        <Reference Include="Harmony" HintPath="$(VINTAGE_STORY)/Lib/0Harmony.dll" Private="false" />
-        <PackageReference Include="livemap" Version="0.0.10-b196" IncludeAssets="compile" PrivateAssets="all" />
-        <None Include="LICENSE;README.md;resources/**" CopyToOutputDirectory="PreserveNewest" Pack="true" PackagePath="" Link="%(RecursiveDir)%(Filename)%(Extension)" />
+        <Reference Include="$(VINTAGE_STORY)/**/*.dll" Exclude="$(VINTAGE_STORY)/**/CairoSharp.dll" Private="false"/>
+        <PackageReference Include="livemap" Version="0.0.10-b199" IncludeAssets="compile" PrivateAssets="all"/>
+        <None Include="LICENSE;README.md;resources/**" Link="%(RecursiveDir)%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" Pack="true" PackagePath=""/>
     </ItemGroup>
 
-    <Target Name="_ResolveCopyLocalNuGetPkgXmls" AfterTargets="ResolveReferences">
-        <ReferenceCopyLocalPaths Include="@(ReferenceCopyLocalPaths->'%(RootDir)%(Directory)%(Filename).xml')" Condition="'%(ReferenceCopyLocalPaths.NuGetPackageId)'!='' and Exists('%(RootDir)%(Directory)%(Filename).xml')" />
+    <Target Name="ExtraClean" AfterTargets="Clean">
+        <RemoveDir Directories="bin/$(Configuration)"/>
     </Target>
 
-    <Target Name="FilterModInfo" AfterTargets="PostBuildEvent">
+    <Target Name="ProcessResources" AfterTargets="PostBuildEvent">
         <PropertyGroup>
             <ModInfoJson>$(TargetDir)/modinfo.json</ModInfoJson>
         </PropertyGroup>
@@ -44,8 +38,8 @@
         />
     </Target>
 
-    <Target Name="PackZip" AfterTargets="FilterModInfo">
-        <ZipDirectory DestinationFile="bin/livemap-temporal-stability-$(Version).zip" SourceDirectory="$(TargetDir)" Overwrite="true" />
+    <Target Name="Package" AfterTargets="ProcessResources">
+        <ZipDirectory DestinationFile="bin/LiveMap-TemporalStability-$(Version).zip" SourceDirectory="$(TargetDir)" Overwrite="true"/>
     </Target>
 
 </Project>
